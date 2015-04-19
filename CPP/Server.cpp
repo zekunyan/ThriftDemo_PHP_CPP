@@ -2,15 +2,20 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "TTGService.h"
+
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
+#include <thrift/concurrency/ThreadManager.h>
+#include <thrift/concurrency/PosixThreadFactory.h>
+#include <thrift/server/TThreadedServer.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
+using namespace ::apache::thrift::concurrency;
 
 using boost::shared_ptr;
 
@@ -25,7 +30,7 @@ public:
 
     void getStudentInfo(Response &_return, const Request &request) {
         // Your implementation goes here
-        cout<<"Request: "<<request.studentID<<endl;
+        cout << "Request: " << request.studentID << endl;
 
         Response *response = new Response();
 
@@ -43,16 +48,32 @@ public:
 int main(int argc, char **argv) {
     int port = 9090;
     shared_ptr<TTGServiceHandler> handler(new TTGServiceHandler());
+
+    //Single thread
+//    shared_ptr<TProcessor> processor(new TTGServiceProcessor(handler));
+//    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+//    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+//    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+//
+//    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+//
+
+    //Multi thread
     shared_ptr<TProcessor> processor(new TTGServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+    shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(10);
+    shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    threadManager->threadFactory(threadFactory);
+    threadManager->start();
+
+    TThreadedServer server(processor, serverTransport, transportFactory, protocolFactory, threadFactory);
 
     cout<<"Server begin..."<<endl;
-
     server.serve();
+
     return 0;
 }
 

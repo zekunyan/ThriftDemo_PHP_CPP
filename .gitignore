@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io
 
+# Added by tutuge
+build
+
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
