@@ -1,7 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-PROJECT(RCPR_Server)
-
-file(GLOB ALL_FILES "*.h" "*.cpp")
-
-add_executable(TTG.run ${ALL_FILES})
-target_link_libraries(TTG.run thrift)
