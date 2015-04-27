@@ -32,15 +32,12 @@ public:
         // Your implementation goes here
         cout << "Request: " << request.studentID << endl;
 
-        Response *response = new Response();
+        _return.studentID = request.studentID;
+        _return.name = "tutuge";
+        _return.infos.push_back("Info 1");
+        _return.infos.push_back("Info 2");
+        _return.state = ResponseState::StateOk;
 
-        response->studentID = request.studentID;
-        response->name = "tutuge";
-        response->infos.push_back("Info 1");
-        response->infos.push_back("Info 2");
-        response->state = ResponseState::StateOk;
-
-        _return = *response;
     }
 
 };
