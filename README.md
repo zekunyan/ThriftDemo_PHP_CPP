@@ -1,6 +1,8 @@
-# This project is no longer maintained
+# ! This project is no longer maintained !
 
-# Thrift Demo. PHP client call CPP server
+---
+
+## Thrift Demo. PHP client call CPP server
 
 ## What is Thrift
 Thrift is an interface definition language and binary communication protocol that is used to define and create services for numerous languages. It is used as a remote procedure call (RPC) framework and was developed at Facebook for "scalable cross-language services development". It combines a software stack with a code generation engine to build services that work efficiently to a varying degree and seamlessly between C#, C++ (on POSIX-compliant systems), Cappuccino, Cocoa, Delphi, Erlang, Go, Haskell, Java, Node.js, OCaml, Perl, PHP, Python, Ruby and Smalltalk. Although developed at Facebook, it is now an open source project in the Apache Software Foundation. The implementation was described in an April 2007 technical paper released by Facebook, now hosted on Apache.  -- From Wiki [Apache Thrift](http://en.wikipedia.org/wiki/Apache_Thrift)
